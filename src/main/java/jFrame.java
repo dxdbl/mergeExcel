@@ -25,7 +25,7 @@ public class jFrame extends JFrame {
         jt1.setBounds(400,50,500,50);
         Font f1 = new Font("Helvetica",Font.PLAIN,18);
         jt1.setFont(f1);
-        jt1.setText("D:\\A\\b");
+        jt1.setText("D:\\A\\b\\");
 
         //添加textArea
         Font f2 = new Font("Helvetica",Font.PLAIN,22);
@@ -35,6 +35,7 @@ public class jFrame extends JFrame {
         jta1.setBackground(Color.black);
         jta1.setEditable(false);
         jta1.setForeground(Color.cyan);
+
 
         //添加按钮1
         final JButton button1  = new JButton("选择目录");
@@ -76,7 +77,8 @@ public class jFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //创建输出流
                 fileO fo = new fileO();
-                fo.createFile("test");
+                fo.createFile("after-merge");
+
                 //开始合并文件
                 String s = jt1.getText();
                 if (s.length() <= 0){
@@ -85,9 +87,18 @@ public class jFrame extends JFrame {
                 List<String> fileList = new ArrayList<String>(POIUtil.getFilesName(s));
                 button2.setEnabled(false);
 
+                fileO.delFile("after-merge");
+
+                fileO.createFile("after-merge");
+                jta1.append("[ * ]成功创建合并文件 after-merge.csv ！\n");
+
+                jta1.append("[ * ]文件合并完成啦(●ˇ∀ˇ●),包含以下文件:\n");
+
                 for (int i = 0; i < fileList.size(); i++) {
                     String fileName = fileList.get(i);
                     System.out.println(fileName);
+                    jta1.append(">>>>>>>>>> " + fileName + "\n");
+                    jta1.paintImmediately(jta1.getBounds());
                     try {
 
                         List<String[]> data = POIUtil.readExcel(fileName);
@@ -97,16 +108,16 @@ public class jFrame extends JFrame {
                             String line3 = line2.replace("[","");
                             String line4 = line3.replace("]","");
                             System.out.println(line4);
-                            fo.writeFileContent("E:\\bao\\merge-excel\\merge-excel-all\\merge-excel-all.csv",line4);
+                            fo.writeFileContent("D:\\A\\after-merge.csv",line4);
                         }
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
                 }
 
-                jt1.setText("文件合并完成啦(●ˇ∀ˇ●)");
             }
         });
+
 
         p1.add(jta1);
         p1.add(button1);
@@ -124,12 +135,14 @@ public class jFrame extends JFrame {
         //设置显示窗体
         this.setVisible(true);
 
+
     }
 
     public static void main(String[] args) {
         JFrame jFrame = new jFrame();
         try {
             ((jFrame) jFrame).cFrame();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

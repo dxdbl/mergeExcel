@@ -3,7 +3,7 @@ import java.util.UUID;
 
 public class fileO {
     //生成文件路径
-    private static String path = "E:\\bao\\merge-excel\\merge-excel-all";
+    private static String path = "D:\\A\\";
 
     //文件路径+名称
     private static String filenameTemp;
@@ -103,7 +103,7 @@ public class fileO {
      */
     public static boolean delFile(String fileName) {
         Boolean bool = false;
-        filenameTemp = path + fileName + ".txt";
+        filenameTemp = path + fileName + ".csv";
         File file = new File(filenameTemp);
         try {
             if (file.exists()) {
